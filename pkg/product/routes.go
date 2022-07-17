@@ -21,6 +21,8 @@ func RegisterRoutes(r *gin.Engine, c *config.Config, authSvc *auth.ServiceClient
 	// Must authorized routes
 	routes.Use(a.AuthRequired)
 	routes.POST("/", svc.CreateProduct)
+	routes.DELETE("/:id", svc.DeleteProduct)
+
 }
 
 func (svc *ServiceClient) CreateProduct(ctx *gin.Context) {
@@ -29,4 +31,8 @@ func (svc *ServiceClient) CreateProduct(ctx *gin.Context) {
 
 func (svc *ServiceClient) ListProduct(ctx *gin.Context) {
 	routes.ListProduct(ctx, svc.Client)
+}
+
+func (svc *ServiceClient) DeleteProduct(ctx *gin.Context) {
+	routes.DeleteProduct(ctx, svc.Client)
 }
