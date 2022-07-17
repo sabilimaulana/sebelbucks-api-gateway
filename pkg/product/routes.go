@@ -14,11 +14,19 @@ func RegisterRoutes(r *gin.Engine, c *config.Config, authSvc *auth.ServiceClient
 		Client: InitServiceClient(c),
 	}
 
-	routes := r.Group("/product")
+	// Public routes
+	routes := r.Group("/products")
+	routes.GET("/", svc.ListProduct)
+
+	// Must authorized routes
 	routes.Use(a.AuthRequired)
 	routes.POST("/", svc.CreateProduct)
 }
 
 func (svc *ServiceClient) CreateProduct(ctx *gin.Context) {
 	routes.CreateProduct(ctx, svc.Client)
+}
+
+func (svc *ServiceClient) ListProduct(ctx *gin.Context) {
+	routes.ListProduct(ctx, svc.Client)
 }
