@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sabilimaulana/sebelbucks-api-gateway/pkg/auth"
 	"github.com/sabilimaulana/sebelbucks-api-gateway/pkg/config"
+	"github.com/sabilimaulana/sebelbucks-api-gateway/pkg/product"
 )
 
 func main() {
@@ -16,7 +17,8 @@ func main() {
 
 	r := gin.Default()
 
-	auth.RegisterRoutes(r, &c)
+	authSvc := auth.RegisterRoutes(r, &c)
+	product.RegisterRoutes(r, &c, authSvc)
 
 	r.Run(c.Port)
 }
