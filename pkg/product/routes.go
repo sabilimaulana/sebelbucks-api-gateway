@@ -15,16 +15,26 @@ func RegisterRoutes(r *gin.Engine, c *config.Config, authSvc *auth.ServiceClient
 	}
 
 	// Public routes
-	routes := r.Group("/products")
-	routes.GET("/", svc.ListProduct)
+	// Products
+	productRoutes := r.Group("/products")
+	productRoutes.GET("/", svc.ListProduct)
+
+	// Variants
+	variantRoutes := r.Group("/variants")
 
 	// Must authorized routes
-	routes.Use(a.AuthRequired)
-	routes.POST("/", svc.CreateProduct)
-	routes.DELETE("/:id", svc.DeleteProduct)
+	r.Use(a.AuthRequired)
+
+	// Products
+	productRoutes.POST("/", svc.CreateProduct)
+	productRoutes.DELETE("/:id", svc.DeleteProduct)
+
+	// Variants
+	variantRoutes.POST("/", svc.CreateVariant)
 
 }
 
+// Products
 func (svc *ServiceClient) CreateProduct(ctx *gin.Context) {
 	routes.CreateProduct(ctx, svc.Client)
 }
@@ -35,4 +45,9 @@ func (svc *ServiceClient) ListProduct(ctx *gin.Context) {
 
 func (svc *ServiceClient) DeleteProduct(ctx *gin.Context) {
 	routes.DeleteProduct(ctx, svc.Client)
+}
+
+// Variants
+func (svc *ServiceClient) CreateVariant(ctx *gin.Context) {
+	routes.CreateVariant(ctx, svc.Client)
 }
