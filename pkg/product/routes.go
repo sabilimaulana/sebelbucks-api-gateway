@@ -21,6 +21,7 @@ func RegisterRoutes(r *gin.Engine, c *config.Config, authSvc *auth.ServiceClient
 
 	// Variants
 	variantRoutes := r.Group("/variants")
+	variantRoutes.GET("/", svc.ListVariant)
 
 	// Must authorized routes
 	r.Use(a.AuthRequired)
@@ -50,4 +51,8 @@ func (svc *ServiceClient) DeleteProduct(ctx *gin.Context) {
 // Variants
 func (svc *ServiceClient) CreateVariant(ctx *gin.Context) {
 	routes.CreateVariant(ctx, svc.Client)
+}
+
+func (svc *ServiceClient) ListVariant(ctx *gin.Context) {
+	routes.ListVariant(ctx, svc.Client)
 }
