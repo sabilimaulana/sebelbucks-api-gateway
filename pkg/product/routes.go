@@ -8,7 +8,7 @@ import (
 )
 
 func RegisterRoutes(r *gin.Engine, c *config.Config, authSvc *auth.ServiceClient) {
-	a := auth.InitAuthMiddleware(authSvc)
+	// a := auth.InitAuthMiddleware(authSvc)
 
 	svc := &ServiceClient{
 		Client: InitServiceClient(c),
@@ -24,33 +24,11 @@ func RegisterRoutes(r *gin.Engine, c *config.Config, authSvc *auth.ServiceClient
 	variantRoutes.GET("/", svc.ListVariant)
 
 	// Must authorized routes
-	r.Use(a.AuthRequired)
-
-	// Products
-	productRoutes.POST("/", svc.CreateProduct)
-	productRoutes.DELETE("/:id", svc.DeleteProduct)
-
-	// Variants
-	variantRoutes.POST("/", svc.CreateVariant)
-
-}
-
-// Products
-func (svc *ServiceClient) CreateProduct(ctx *gin.Context) {
-	routes.CreateProduct(ctx, svc.Client)
+	// r.Use(a.AuthRequired)
 }
 
 func (svc *ServiceClient) ListProduct(ctx *gin.Context) {
 	routes.ListProduct(ctx, svc.Client)
-}
-
-func (svc *ServiceClient) DeleteProduct(ctx *gin.Context) {
-	routes.DeleteProduct(ctx, svc.Client)
-}
-
-// Variants
-func (svc *ServiceClient) CreateVariant(ctx *gin.Context) {
-	routes.CreateVariant(ctx, svc.Client)
 }
 
 func (svc *ServiceClient) ListVariant(ctx *gin.Context) {
