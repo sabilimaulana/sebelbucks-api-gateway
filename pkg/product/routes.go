@@ -18,6 +18,7 @@ func RegisterRoutes(r *gin.Engine, c *config.Config, authSvc *auth.ServiceClient
 	// Products
 	productRoutes := r.Group("/products")
 	productRoutes.GET("/", svc.ListProduct)
+	productRoutes.GET("/:id", svc.DetailProduct)
 
 	// Variants
 	variantRoutes := r.Group("/variants")
@@ -29,6 +30,10 @@ func RegisterRoutes(r *gin.Engine, c *config.Config, authSvc *auth.ServiceClient
 
 func (svc *ServiceClient) ListProduct(ctx *gin.Context) {
 	routes.ListProduct(ctx, svc.Client)
+}
+
+func (svc *ServiceClient) DetailProduct(ctx *gin.Context) {
+	routes.DetailProduct(ctx, svc.Client)
 }
 
 func (svc *ServiceClient) ListVariant(ctx *gin.Context) {
